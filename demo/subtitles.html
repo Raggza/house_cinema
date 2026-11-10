@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thử phụ đề</title>
+<style>
+  :root { color-scheme: light dark; --bg: #fff; --fg: #1a1a1a; --muted: #666; --line: #ccc; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #161616; --fg: #eee; --muted: #aaa; --line: #444; } }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg);
+         font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; }
+  form { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  input { flex: 1 1 220px; padding: 8px; font: inherit; border: 1px solid var(--line); border-radius: 6px;
+          background: transparent; color: inherit; }
+  button { padding: 8px 16px; font: inherit; border-radius: 6px; border: 1px solid var(--line); cursor: pointer; }
+  video { width: 100%; background: #000; border-radius: 6px; }
+  #status { color: var(--muted); }
+  ul { padding-left: 20px; }
+  .cues { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Thử phụ đề (bước 3.3)</h1>
+  <p id="status">Nhập ID video (16 ký tự, xem bằng <code>python -m source.pipeline list</code>).</p>
+  <form id="form">
+    <input id="id" placeholder="vd. 601fdf6c1a2b3c4d" pattern="[0-9a-f]{16}" required autocomplete="off">
+    <button>Phát</button>
+  </form>
+  <video id="video" controls playsinline></video>
+  <ul id="tracks"></ul>
+</main>
+<script>
+// Trang thử tạm thời, chỉ có khi app_env khác "production". Trình phát thật ở bước 4.2.
+const $ = (s) => document.querySelector(s);
+async function load(id) {
+  const video = $("#video"), list = $("#tracks"), status = $("#status");
+  video.querySelectorAll("track").forEach((t) => t.remove());
+  list.replaceChildren();
+  const resp = await fetch(`/subtitles/${id}`);
+  if (!resp.ok) { status.textContent = `Không tìm thấy video (${resp.status}).`; return; }
+  const tracks = await resp.json();
+  tracks.forEach((t, i) => {
+    const el = Object.assign(document.createElement("track"),
+      { kind: "subtitles", label: t.label, srclang: t.lang, src: t.url, default: i === 0 });
+    video.append(el);
+    const li = document.createElement("li");
+    const a = Object.assign(document.createElement("a"), { href: t.url, textContent: `${t.label} [${t.lang}] — ${t.url}` });
+    const info = Object.assign(document.createElement("div"), { className: "cues" });
+    li.append(a, info);
+    list.append(li);
+    // What the browser itself parsed from the WebVTT (proves times and text are understood).
+    el.addEventListener("load", () => {
+      const c = [...el.track.cues];
+      info.textContent = `${c.length} cue: ` + c.slice(0, 3)
+        .map((q) => `[${q.startTime.toFixed(3)}–${q.endTime.toFixed(3)}] ${q.text}`).join(" | ");
+      info.dataset.loaded = "yes";
+    });
+    el.addEventListener("error", () => { info.textContent = "Trình duyệt không đọc được phụ đề này."; info.dataset.loaded = "error"; });
+    if (i !== 0) el.track.mode = "hidden";  // load every track (hidden) so each can be checked
+  });
+  video.src = `/stream/${id}`;
+  status.textContent = tracks.length
+    ? `${tracks.length} phụ đề. Chọn phụ đề bằng nút CC của trình phát.`
+    : "Video này không có phụ đề (vẫn phát bình thường).";
+  history.replaceState(null, "", `?id=${id}`);
+}
+$("#form").addEventListener("submit", (e) => { e.preventDefault(); load($("#id").value.trim()); });
+const initial = new URLSearchParams(location.search).get("id");
+if (initial) { $("#id").value = initial; load(initial); }
+</script>
+</body>
+</html>

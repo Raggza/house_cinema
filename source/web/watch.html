@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Đang tải… – House Cinema</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M12 9v14l11-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/watch.js"></script>
+</head>
+<body class="watch-page">
+<header class="topbar">
+  <a class="brand" href="/">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+    <span>House Cinema</span>
+  </a>
+  <a class="btn rescan" id="back" href="/">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    <span>Thư viện</span>
+  </a>
+</header>
+
+<main class="watch">
+  <div id="stage" class="stage">
+    <video id="video" controls playsinline preload="metadata"></video>
+    <div id="notice" class="stage-notice" role="alert" hidden></div>
+    <div id="upnext" class="upnext" role="status" hidden>
+      <span id="upnext-text"></span>
+      <span class="upnext-actions">
+        <button id="upnext-now" class="btn primary" type="button">Phát ngay</button>
+        <button id="upnext-cancel" class="btn" type="button">Huỷ</button>
+      </span>
+    </div>
+  </div>
+
+  <div id="resume" class="resume" role="status" hidden>
+    <span id="resume-text"></span>
+    <button id="restart" class="btn" type="button">Xem từ đầu</button>
+  </div>
+
+  <section class="details" aria-labelledby="title">
+    <h1 id="title" class="watch-title"></h1>
+    <p id="where" class="where"></p>
+    <p id="meta" class="watch-meta"></p>
+    <div class="watch-tools">
+      <label class="sub-select" id="sub-select" hidden>
+        <span>Phụ đề</span>
+        <select id="subtitles" aria-label="Phụ đề"></select>
+      </label>
+      <button id="cast" class="btn primary" type="button" title="Dừng ở đây và phát tiếp trên Smart TV (điện thoại làm remote)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span>Phát trên TV</span>
+      </button>
+      <button id="copy-link" class="btn" type="button" title="Sao chép link để mở bằng VLC hoặc ứng dụng khác">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15l6-6M10 6l1.5-1.5a4 4 0 0 1 5.66 5.66L15.5 12M8.5 12l-1.66 1.66a4 4 0 0 0 5.66 5.66L14 18"/></svg>
+        <span>Link cho VLC</span>
+      </button>
+    </div>
+    <p class="hint small keys">Phím tắt: <kbd>Space</kbd> phát/dừng · <kbd>←</kbd> <kbd>→</kbd> tua 10 giây ·
+      <kbd>F</kbd> toàn màn hình · <kbd>C</kbd> bật/tắt phụ đề · <kbd>M</kbd> tắt tiếng ·
+      <kbd>N</kbd> <kbd>P</kbd> video sau/trước (danh sách phát)</p>
+  </section>
+
+  <section id="playlist" class="playlist" aria-labelledby="pl-title" hidden>
+    <div class="pl-head">
+      <h2 id="pl-title">Danh sách phát</h2>
+      <span id="pl-pos" class="pl-pos"></span>
+    </div>
+    <div class="pl-controls">
+      <button id="pl-prev" class="btn" type="button" title="Video trước (P)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5L9 12l10 7z"/></svg>
+        <span class="label">Trước</span>
+      </button>
+      <button id="pl-next" class="btn" type="button" title="Video sau (N)">
+        <span class="label">Sau</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l10 7-10 7z"/></svg>
+      </button>
+      <button id="pl-shuffle" class="btn toggle" type="button" aria-pressed="false" title="Phát ngẫu nhiên">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 20L20 4M20 16v4h-4M15 15l5 5M4 4l5 5"/></svg>
+        <span class="label">Ngẫu nhiên</span>
+      </button>
+      <button id="pl-repeat" class="btn toggle" type="button" aria-pressed="false" title="Lặp lại: bấm để đổi">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg>
+        <span class="label">Không lặp</span>
+      </button>
+    </div>
+    <ol id="pl-items" class="pl-items"></ol>
+  </section>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

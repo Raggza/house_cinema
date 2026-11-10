@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Nhập PIN – House Cinema</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M12 9v14l11-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/pin.js"></script>
+</head>
+<body class="pin-page">
+<main class="pin-box">
+  <svg class="pin-logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+  <h1>House Cinema</h1>
+  <p class="hint">Nhập mã PIN của hub để xem thư viện trên thiết bị này. Thiết bị sẽ được nhớ, không phải nhập lại mỗi lần.</p>
+  <form id="pin-form" autocomplete="off">
+    <label for="pin" class="visually-hidden">Mã PIN</label>
+    <input id="pin" name="pin" type="password" inputmode="numeric" autocomplete="current-password"
+           placeholder="Mã PIN" maxlength="32" required autofocus>
+    <button class="btn primary" type="submit" id="pin-submit">Vào thư viện</button>
+  </form>
+  <p id="pin-message" class="pin-message" role="alert" hidden></p>
+  <p class="hint small">Không biết PIN? Hỏi người quản lý máy chủ (PIN nằm trong file <code>.env</code> của hub).</p>
+</main>
+</body>
+</html>

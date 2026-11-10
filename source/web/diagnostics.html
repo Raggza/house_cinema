@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Kiểm tra thiết bị – House Cinema</title>
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/diagnostics.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+    <span>House Cinema</span>
+  </a>
+  <a class="btn rescan" href="/"><span>Về thư viện</span></a>
+  <div class="tools"><h1 class="page-title">Kiểm tra thiết bị</h1></div>
+</header>
+
+<main class="admin diag">
+  <section class="panel">
+    <h2>Thiết bị này xem phim được không?</h2>
+    <p class="hint">Trang này thử phát, tua, phụ đề và từng định dạng video trên thiết bị đang dùng, rồi gửi
+      kết quả về hub để ghi vào bảng kiểm thử. Mất khoảng 1 phút; vài câu hỏi cần bạn nhìn màn hình để trả lời.</p>
+    <label class="field">Tên thiết bị (ví dụ: iPhone 13 – Safari)
+      <input id="device" type="text" maxlength="80" autocomplete="off">
+    </label>
+    <button id="start" class="btn primary" type="button">Bắt đầu kiểm tra</button>
+  </section>
+
+  <section class="panel" id="remote">
+    <h2>Kiểm tra phím remote (Smart TV)</h2>
+    <p class="hint">Dùng trên TV: trang lần lượt yêu cầu bấm từng nút trên remote và ghi lại trình duyệt nhận được
+      gì. Nút nào không có trên remote hoặc bấm không thấy gì thì chờ hết giờ, trang tự chuyển sang nút sau.
+      Kết quả dùng để làm chế độ TV (bước 5.4). Tên thiết bị lấy từ ô ở trên.</p>
+    <button id="remote-start" class="btn primary" type="button">Bắt đầu kiểm tra phím</button>
+    <div id="remote-run" class="remote-run" hidden>
+      <p class="remote-step" id="remote-step"></p>
+      <p class="remote-prompt" id="remote-prompt" aria-live="assertive"></p>
+      <p class="hint" id="remote-countdown"></p>
+      <p class="hint" id="remote-last" aria-live="polite"></p>
+      <div class="question-actions" id="remote-controls">
+        <button id="remote-skip" class="btn" type="button">Bỏ qua nút này</button>
+        <button id="remote-stop" class="btn" type="button">Dừng</button>
+      </div>
+    </div>
+    <div id="remote-summary" hidden>
+      <table class="results"><thead><tr><th>Nút</th><th>Kết quả</th><th>Trình duyệt nhận được</th></tr></thead>
+        <tbody id="remote-results"></tbody></table>
+      <label class="field">Ghi chú thêm (không bắt buộc, ví dụ: tên TV, trình duyệt)
+        <textarea id="remote-notes" rows="2" maxlength="1000"></textarea>
+      </label>
+      <div class="question-actions">
+        <button id="remote-send" class="btn primary" type="button">Gửi kết quả phím về hub</button>
+        <button id="remote-again" class="btn" type="button">Kiểm tra lại</button>
+      </div>
+      <p id="remote-sent" class="hint" role="status"></p>
+    </div>
+    <details class="remote-log-box">
+      <summary>Nhật ký phím (mọi sự kiện trình duyệt nhận được)</summary>
+      <ol id="remote-log" class="remote-log"></ol>
+    </details>
+  </section>
+
+  <section class="panel" id="run" hidden>
+    <div class="diag-stage"><video id="video" controls playsinline muted preload="metadata"></video></div>
+    <ol id="steps" class="steps" aria-live="polite"></ol>
+    <div id="question" class="question" hidden>
+      <p id="question-text"></p>
+      <div class="question-actions">
+        <button id="extra" class="btn" type="button" hidden></button>
+        <button id="yes" class="btn primary" type="button">Có</button>
+        <button id="no" class="btn" type="button">Không</button>
+        <button id="skip" class="btn" type="button">Bỏ qua</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="summary" hidden>
+    <h2>Kết quả</h2>
+    <table class="results"><thead><tr><th>Mục</th><th>Kết quả</th><th>Ghi chú</th></tr></thead><tbody id="results"></tbody></table>
+    <label class="field">Ghi chú thêm (không bắt buộc)
+      <textarea id="notes" rows="2" maxlength="1000"></textarea>
+    </label>
+    <button id="send" class="btn primary" type="button">Gửi kết quả về hub</button>
+    <p id="sent" class="hint" role="status"></p>
+  </section>
+</main>
+</body>
+</html>

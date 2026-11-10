@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Quản trị – House Cinema</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M12 9v14l11-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/admin.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+    <span>House Cinema</span>
+  </a>
+  <a class="btn rescan" href="/" id="back">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    <span>Về thư viện</span>
+  </a>
+  <div class="tools"><h1 class="page-title">Quản trị</h1></div>
+</header>
+
+<main class="admin">
+  <section id="tools" class="panel" aria-labelledby="tools-title" hidden>
+    <h2 id="tools-title">Thiếu ffmpeg</h2>
+    <p id="tools-missing" class="hint"></p>
+    <ul id="tools-off" class="errors"></ul>
+    <p id="tools-hint" class="hint small"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="folders-title">
+    <h2 id="folders-title">Thư mục thư viện</h2>
+    <p class="hint">Các thư mục chứa phim trên máy chủ này. Thêm hoặc bỏ thư mục ở đây, sau đó về
+      thư viện và bấm <strong>Quét lại</strong> để cập nhật danh sách video.</p>
+    <div id="notice" class="notice" hidden></div>
+    <ul id="folders" class="folder-list" aria-live="polite" aria-busy="true"></ul>
+
+    <form id="add" class="add-form" autocomplete="off">
+      <label for="path">Thêm thư mục</label>
+      <div class="add-row">
+        <input id="path" name="path" type="text" spellcheck="false"
+               placeholder="Để trống rồi bấm Thêm để chọn thư mục, hoặc dán đường dẫn">
+        <button class="btn primary" type="submit">Thêm</button>
+      </div>
+      <p id="picking" class="hint small picking" role="status" hidden></p>
+      <p class="hint small">Bấm <strong>Thêm</strong> khi ô còn trống: hộp chọn thư mục của máy này mở ra (bắt đầu ở
+        thư mục Downloads). Cũng có thể dán đường dẫn vào ô rồi bấm Thêm, ví dụ <code>D:\Phim</code> hoặc
+        thư mục mạng <code>\\may-chu\Phim</code>.</p>
+      <div id="errors" class="errors" role="alert" hidden></div>
+    </form>
+
+    <div id="saved" class="saved" role="status" hidden>
+      <p><strong>Đã lưu.</strong> Về thư viện và bấm “Quét lại” để tìm video trong các thư mục mới.</p>
+      <a class="btn primary" href="/?after=admin">Về thư viện</a>
+    </div>
+    <p id="store" class="hint small"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="connect-title">
+    <h2 id="connect-title">Kết nối từ điện thoại</h2>
+    <p class="hint">Trên điện thoại hoặc máy tính khác dùng <strong>cùng mạng Wi-Fi</strong>, quét mã QR bằng camera
+      hoặc gõ địa chỉ bên dưới vào trình duyệt.</p>
+    <div id="connect" class="connect" aria-live="polite" aria-busy="true">
+      <img id="qr" class="qr" alt="Mã QR địa chỉ của hub" width="196" height="196" hidden>
+      <div class="connect-text">
+        <ul id="urls" class="urls"></ul>
+        <div id="net-warnings" class="errors" role="alert" hidden></div>
+        <details id="net-others" hidden>
+          <summary>Các địa chỉ khác của máy này (không dùng cho điện thoại)</summary>
+          <ul id="others" class="hint small"></ul>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

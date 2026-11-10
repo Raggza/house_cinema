@@ -1,0 +1,58 @@
+project:
+  name: house_cinema
+  version: 0.1.0
+
+logging:
+  level: INFO
+
+server:
+  # 0.0.0.0 = listen on every network card so phones/PCs on the LAN can connect.
+  host: 0.0.0.0
+  port: 8000
+
+library:
+  # Folders to share. Usually given with --path instead; --path replaces this list.
+  # Example (Windows): - "E:\\Movies"
+  paths: []
+  # Files with these extensions are treated as videos (case-insensitive).
+  video_extensions: [.mp4, .m4v, .webm, .mkv, .avi, .mov]
+  # SQLite index of the library (relative to the project folder). Deleting it is safe:
+  # the next `scan` rebuilds it.
+  index_path: data/library.db
+
+media:
+  # Thumbnails are stored in <cache_dir>/thumbs (relative to the project folder).
+  cache_dir: cache
+  # Leave empty to find ffmpeg on PATH; ffprobe is looked for next to ffmpeg first.
+  # Example (Windows): ffmpeg_path: "D:\\ffmpeg\\bin\\ffmpeg.exe"
+  ffmpeg_path:
+  ffprobe_path:
+  # Files probed / thumbnailed in parallel.
+  workers: 4
+
+access:
+  # The PIN itself goes in source/configs/.env as HUB_PIN=1234 (empty = no PIN). With a PIN,
+  # every device except the server computer types it once (remembered pin_remember_days).
+  # Refuse devices with a public (Internet) address; only the LAN / VPN ranges get in.
+  lan_only: true
+  # Wrong PINs in a row before that device must wait pin_lockout_minutes.
+  pin_max_attempts: 5
+  pin_lockout_minutes: 5
+  pin_remember_days: 30
+
+transcode:
+  # Videos a browser cannot play (MKV, HEVC, AC-3 sound…) are converted on the fly with
+  # ffmpeg: a quick remux (no quality loss) when the picture can be kept, else a conversion
+  # to H.264. Files are written to <cache_dir>/transcode.
+  enabled: true
+  # Conversions at the same time; one more gets "Hub đang bận" instead of slowing everyone.
+  max_sessions: 2
+  # libx264 uses the CPU. With a graphics card: h264_nvenc (NVIDIA), h264_qsv (Intel),
+  # h264_amf (AMD), if your ffmpeg build has it.
+  video_encoder: libx264
+  # Converted video is scaled down to at most this height.
+  max_height: 1080
+  # Stop a conversion nobody watches any more (closed tab, paused for long) after this.
+  idle_seconds: 60
+  # Remuxed copies kept for next time (GB). 0 = do not keep.
+  cache_gb: 20

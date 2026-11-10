@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# ---------------------------------------------------------------------------
+# Secrets / environment (never commit; use source/configs/.env.example instead)
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+source/configs/.env
+*.key
+*.pem
+*.pfx
+*.p12
+hub-secret.key
+
+# ---------------------------------------------------------------------------
+# Runtime data: library index, saved folder paths, device reports, thumbnails,
+# transcode cache, diagnostic sample videos
+# ---------------------------------------------------------------------------
+data/
+cache/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+
+# ---------------------------------------------------------------------------
+# Test output (Playwright traces/videos with HUB_E2E_RECORD=1)
+# ---------------------------------------------------------------------------
+test-artifacts/
+
+# ---------------------------------------------------------------------------
+# Internal documents: plans, step reports, screenshots, device-test reports
+# (reports contain LAN IPs and device user agents)
+# ---------------------------------------------------------------------------
+docs/
+
+# ---------------------------------------------------------------------------
+# Local AI-assistant tooling
+# ---------------------------------------------------------------------------
+.claude/
+CLAUDE.local.md
+
+# ---------------------------------------------------------------------------
+# Packaging output (packaging/build_windows.ps1, build_macos.sh):
+# PyInstaller work dirs, downloaded ffmpeg, installers, soak-test logs
+# ---------------------------------------------------------------------------
+build/
+dist/
+*.exe
+*.dmg
+*.msi
+
+# ---------------------------------------------------------------------------
+# Editors / OS
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Điều khiển TV – House Cinema</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M12 9v14l11-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/remote.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+    <span>House Cinema</span>
+  </a>
+  <a class="btn rescan" href="/"><span>Thư viện</span></a>
+</header>
+
+<main class="remote">
+  <p id="message" class="remote-message" role="alert" hidden></p>
+
+  <section id="picker" class="panel" hidden>
+    <h1>Chọn TV để điều khiển</h1>
+    <p class="hint">Trên TV, mở trang <b id="tv-url">/tv</b> của hub bằng trình duyệt. Quét mã QR trên TV bằng camera
+      điện thoại, hoặc chọn TV dưới đây, hoặc gõ mã 4 ký tự hiện trên TV.</p>
+    <ul id="screens" class="screen-list"></ul>
+    <p id="no-screens" class="hint" hidden>Chưa có TV nào mở trang /tv.</p>
+    <form id="code-form" class="code-row" autocomplete="off">
+      <input id="code" maxlength="4" placeholder="Mã TV" aria-label="Mã TV" autocapitalize="characters" spellcheck="false">
+      <button class="btn primary" type="submit">Kết nối</button>
+    </form>
+  </section>
+
+  <section id="remote" hidden>
+    <h1 id="screen-name">TV</h1>
+    <div class="now">
+      <img id="thumb" alt="" hidden>
+      <div>
+        <p id="now-title" class="now-title">Chưa phát phim nào</p>
+        <p id="now-status" class="now-status"></p>
+      </div>
+    </div>
+    <div class="seek-row">
+      <span id="pos">0:00</span>
+      <input id="seek" type="range" min="0" max="0" step="1" value="0" aria-label="Tua">
+      <span id="dur">0:00</span>
+    </div>
+    <div class="pad">
+      <button id="back10" class="btn" type="button" aria-label="Lùi 10 giây">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg><span>10s</span>
+      </button>
+      <button id="playpause" class="btn primary" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path id="pp-icon" d="M8 5v14l11-7z"/></svg><span id="pp-label">Phát</span>
+      </button>
+      <button id="fwd10" class="btn" type="button" aria-label="Tới 10 giây">
+        <span>10s</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
+      </button>
+    </div>
+    <div id="pl-box" class="playlist remote-playlist" hidden>
+      <div class="pl-head">
+        <h2 id="pl-title">Danh sách phát</h2>
+        <span id="pl-pos" class="pl-pos"></span>
+      </div>
+      <p id="pl-next-title" class="hint small"></p>
+      <div class="pl-controls">
+        <button id="pl-prev" class="btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5L9 12l10 7z"/></svg><span class="label">Trước</span>
+        </button>
+        <button id="pl-next" class="btn" type="button">
+          <span class="label">Sau</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l10 7-10 7z"/></svg>
+        </button>
+        <button id="pl-shuffle" class="btn toggle" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4h4v4M4 20L20 4M20 16v4h-4M15 15l5 5M4 4l5 5"/></svg>
+          <span class="label">Ngẫu nhiên</span>
+        </button>
+        <button id="pl-repeat" class="btn toggle" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg>
+          <span class="label">Không lặp</span>
+        </button>
+      </div>
+    </div>
+    <div class="volume-row">
+      <button id="mute" class="btn" type="button">Tắt tiếng</button>
+      <input id="volume" type="range" min="0" max="100" step="5" value="100" aria-label="Âm lượng">
+    </div>
+    <div class="remote-tools">
+      <label class="sub-select" id="sub-box" hidden><span>Phụ đề</span><select id="subtitles" aria-label="Phụ đề"></select></label>
+      <button id="stop" class="btn" type="button">Dừng xem</button>
+      <a class="btn" href="/">Chọn phim khác</a>
+      <button id="change" class="btn" type="button">Đổi TV</button>
+    </div>
+  </section>
+</main>
+</body>
+</html>

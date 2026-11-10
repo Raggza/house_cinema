@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>House Cinema</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M12 9v14l11-7z' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+<script type="module" src="/static/app.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/" data-nav="home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7"/><path d="M12 9v14l11-7z"/></svg>
+    <span>House Cinema</span>
+  </a>
+  <div class="actions">
+    <a id="tv-link" class="btn" href="/remote" title="Điều khiển Smart TV bằng điện thoại (trên TV mở trang /tv)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <span class="label">Điều khiển TV</span>
+    </a>
+    <a id="admin-link" class="btn" href="/admin" hidden title="Thêm hoặc bỏ thư mục phim (chỉ trên máy chủ)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5h5"/></svg>
+      <span class="label">Quản trị</span>
+    </a>
+    <button id="rescan" class="btn" type="button" title="Tìm video mới, đã xoá hoặc đổi tên trong các thư mục">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></svg>
+      <span class="label">Quét lại</span>
+    </button>
+  </div>
+  <div class="tools">
+    <label class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" placeholder="Tìm phim theo tên…" autocomplete="off"
+             enterkeyhint="search" aria-label="Tìm phim theo tên (không cần gõ dấu)">
+    </label>
+    <label class="sort">
+      <span class="visually-hidden">Sắp xếp</span>
+      <select id="sort" aria-label="Sắp xếp">
+        <option value="path">Theo thư mục</option>
+        <option value="newest">Mới nhất</option>
+        <option value="title">Theo tên</option>
+        <option value="largest">Dung lượng lớn</option>
+      </select>
+    </label>
+  </div>
+  <div id="scan" class="scan" hidden>
+    <div class="scan-text">
+      <span id="scan-label" role="status">Đang quét thư viện…</span>
+      <span id="scan-count" class="scan-count"></span>
+    </div>
+    <div id="scan-bar" class="scan-track" role="progressbar" aria-label="Tiến độ quét thư viện"
+         aria-valuemin="0" aria-valuemax="100"><div class="scan-fill"></div></div>
+  </div>
+</header>
+
+<main id="main">
+  <nav id="crumbs" class="crumbs" aria-label="Vị trí"></nav>
+  <section id="folders" class="folders" aria-label="Thư mục" hidden></section>
+  <div class="list-bar">
+    <p id="count" class="count" aria-live="polite"></p>
+    <div class="list-actions">
+      <button id="play-all" class="btn primary" type="button" hidden
+              title="Phát lần lượt mọi video trong thư mục này (không gồm thư mục con)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <span class="label">Phát tất cả</span>
+      </button>
+      <button id="select-mode" class="btn" type="button" aria-pressed="false" hidden
+              title="Chọn nhiều video để phát theo thứ tự bạn chọn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg>
+        <span class="label">Chọn</span>
+      </button>
+    </div>
+  </div>
+  <section id="grid" class="grid" aria-label="Video" aria-busy="true"></section>
+  <div id="message" class="message" role="status" hidden></div>
+  <div id="more" class="more" hidden><button class="btn" type="button">Tải thêm</button></div>
+  <div id="sentinel" aria-hidden="true"></div>
+</main>
+
+<div id="selbar" class="selbar" role="region" aria-label="Video đã chọn" hidden>
+  <span id="sel-count" class="sel-count" aria-live="polite">Bấm vào video để chọn</span>
+  <span class="sel-actions">
+    <button id="sel-play" class="btn primary" type="button">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <span class="label">Phát</span>
+    </button>
+    <button id="sel-tv" class="btn" type="button" title="Phát các video đã chọn trên Smart TV (điện thoại làm remote)">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      <span class="label">Phát trên TV</span>
+    </button>
+    <button id="sel-clear" class="btn" type="button">Bỏ chọn</button>
+    <button id="sel-done" class="btn" type="button">Xong</button>
+  </span>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<noscript><p class="message">Trang này cần bật JavaScript.</p></noscript>
+</body>
+</html>
