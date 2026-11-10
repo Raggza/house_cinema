@@ -77,7 +77,7 @@ Hub quét các thư mục vào một chỉ mục SQLite cục bộ, phát file q
 
 ## Bắt đầu nhanh
 
-**Ứng dụng desktop (khuyên dùng):** tải bộ cài ở trang **Releases** của repo, cài đặt, trang quản
+**Ứng dụng desktop (khuyên dùng):** tải bộ cài ở trang [**Releases**](https://github.com/Raggza/house_cinema/releases), cài đặt, trang quản
 trị sẽ tự mở trong trình duyệt. Thêm thư mục, bấm **Quét lại**, rồi quét mã QR bằng điện thoại.
 
 **Từ mã nguồn (Windows):**
@@ -85,7 +85,7 @@ trị sẽ tự mở trong trình duyệt. Thêm thư mục, bấm **Quét lại
 ```powershell
 winget install --id=astral-sh.uv -e        # công cụ Python (tự tải Python)
 winget install Gyan.FFmpeg                 # tuỳ chọn, nên cài
-git clone <repository-url> house_cinema
+git clone https://github.com/Raggza/house_cinema.git
 cd house_cinema
 .\run.cmd                                  # rồi mở http://localhost:8000/admin
 ```

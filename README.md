@@ -81,8 +81,8 @@ real time.
 
 ## Quick start
 
-**Desktop app (recommended):** download the installer from this repository's **Releases**
-page, install it, and the admin page opens in your browser. Add a folder, press *Quét lại*
+**Desktop app (recommended):** download the installer from the
+[**Releases**](https://github.com/Raggza/house_cinema/releases) page, install it, and the admin page opens in your browser. Add a folder, press *Quét lại*
 (Rescan), then scan the QR code with your phone.
 
 **From source (Windows):**
@@ -90,7 +90,7 @@ page, install it, and the admin page opens in your browser. Add a folder, press 
 ```powershell
 winget install --id=astral-sh.uv -e        # Python toolchain (downloads Python by itself)
 winget install Gyan.FFmpeg                 # optional, recommended
-git clone <repository-url> house_cinema
+git clone https://github.com/Raggza/house_cinema.git
 cd house_cinema
 .\run.cmd                                  # then open http://localhost:8000/admin
 ```
